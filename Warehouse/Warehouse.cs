@@ -25,7 +25,8 @@ namespace Warehouse
             using (bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
             {
                 // Listen for order request messages.
-                bus.Subscribe<OrderRequestMessage>("warehouse" + id.ToString(), HandleOrderRequestMessage);
+                bus.PubSub.Subscribe<OrderRequestMessage>("warehouse" + id.ToString(), 
+                    HandleOrderRequestMessage);
 
                 lock (this)
                 {
@@ -64,7 +65,7 @@ namespace Warehouse
                 };
 
                 // Send the reply message to the Retailer.
-                bus.Send("warehouseToRetailerQueue", replyMessage);
+                bus.SendReceive.Send("warehouseToRetailerQueue", replyMessage);
 
                 lock (this)
                 {

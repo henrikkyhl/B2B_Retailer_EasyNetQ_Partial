@@ -24,7 +24,8 @@ namespace Retailer
                 Console.WriteLine("Retailer is running.");
 
                 // Listen for order request messages from customers
-                bus.Receive<OrderRequestMessage>("customerToRetailerQueue", message => HandleOrderRequest(message));
+                bus.SendReceive.Receive<OrderRequestMessage>("customerToRetailerQueue", 
+                    message => HandleOrderRequest(message));
 
                 // Listen for order reply messages from warehouses (use a point-to-point channel).
                 // WRITE CODE HERE!
@@ -52,7 +53,8 @@ namespace Retailer
             // (Timeout_Elapsed) will process the replies from warehouses and reply
             // to the customer who created the order request.
             // Beware that a timer runs in a separate thread.
-            Timer timer = new Timer(Timeout_Elapsed, message, timeoutInterval, Timeout.Infinite);
+            Timer timer = new Timer(Timeout_Elapsed, message, timeoutInterval, 
+                Timeout.Infinite);
         }
 
 
@@ -80,7 +82,8 @@ namespace Retailer
                 if (repliesForThisOrder.Count > 0)
                 {
                     // Get a reply from a local warehouse (DaysForDelivery == 2) if possible.
-                    var reply = repliesForThisOrder.FirstOrDefault(r => r.DaysForDelivery == 2);
+                    var reply = 
+                        repliesForThisOrder.FirstOrDefault(r => r.DaysForDelivery == 2);
                     if (reply == null)
                     {
                         // Otherwise, accept the first reply from one of the other warehouses.
@@ -93,7 +96,7 @@ namespace Retailer
 
                     // Uses Topic Based Routing to send the reply to a customer.
                     // The topic ís the CustomerId for the outstanding request.
-                    bus.Publish<OrderReplyMessage>(reply, m.CustomerId.ToString());
+                    bus.PubSub.Publish<OrderReplyMessage>(reply, m.CustomerId.ToString());
 
 
                     Console.WriteLine("Order: " + reply.OrderId);
@@ -108,7 +111,7 @@ namespace Retailer
                     Console.WriteLine("No items in stock for this product.");
                     OrderReplyMessage replyNoItems = new OrderReplyMessage();
                     replyNoItems.OrderId = m.OrderId;
-                    bus.Publish<OrderReplyMessage>(replyNoItems, m.CustomerId.ToString());
+                    bus.PubSub.Publish<OrderReplyMessage>(replyNoItems, m.CustomerId.ToString());
                 }
             }
         }
