@@ -25,8 +25,7 @@ namespace Warehouse
             using (bus = RabbitHutch.CreateBus("host=goose.rmq2.cloudamqp.com;virtualHost=mldigrlk;username=mldigrlk;password=b4bT92Z_sBkWhRoIP1ZAUe_BH_8hpTcv;persistentMessages=false"))
             {
                 // Listen for order request messages.
-                bus.PubSub.Subscribe<OrderRequestMessage>("warehouse" + id.ToString(), 
-                    HandleOrderRequestMessage);
+                bus.PubSub.Subscribe<OrderRequestMessage>("warehouse" + id.ToString(), HandleOrderRequestMessage);
 
                 lock (this)
                 {
@@ -43,8 +42,7 @@ namespace Warehouse
         {
             lock (this)
             {
-                Console.WriteLine("Warehouse " + id + ": Order request received for order " 
-                    + message.OrderId + ".");
+                Console.WriteLine("Warehouse " + id + ": Order request received for order " + message.OrderId + "." + " Order country: " + message.Country);
             }
 
             int daysForDelivery = country == message.Country ? 2 : 10;
