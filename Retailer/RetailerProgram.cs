@@ -19,12 +19,12 @@ namespace Retailer
 
         static void Main(string[] args)
         {
-            using (bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
+            using (bus = RabbitHutch.CreateBus("host=goose.rmq2.cloudamqp.com;virtualHost=mldigrlk;username=mldigrlk;password=b4bT92Z_sBkWhRoIP1ZAUe_BH_8hpTcv;persistentMessages=false"))
             {
                 Console.WriteLine("Retailer is running.");
 
                 // Listen for order request messages from customers
-                bus.SendReceive.Receive<OrderRequestMessage>("customerToRetailerQueue", 
+                bus.SendReceive.Receive<OrderRequestMessage>("customerToRetailerQueue",
                     message => HandleOrderRequest(message));
 
                 // Listen for order reply messages from warehouses (use a point-to-point channel).

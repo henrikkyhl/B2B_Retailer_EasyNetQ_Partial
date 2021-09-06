@@ -33,7 +33,7 @@ namespace Customer
                 Country = country
             };
 
-            using (IBus bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
+            using (IBus bus = RabbitHutch.CreateBus("host=goose.rmq2.cloudamqp.com;virtualHost=mldigrlk;username=mldigrlk;password=b4bT92Z_sBkWhRoIP1ZAUe_BH_8hpTcv;persistentMessages=false"))
             {
                 // Listen to reply messages from the Retailer (use Topic Based Routing).
                 // WRITE CODE HERE!
@@ -45,12 +45,6 @@ namespace Customer
                 Console.ReadLine();
             }
         }
-
-        void HandleAction(OrderReplyMessage obj)
-        {
-        }
-
-
         private void HandleOrderEvent(OrderReplyMessage message)
         {
             StringBuilder reply = new StringBuilder();
