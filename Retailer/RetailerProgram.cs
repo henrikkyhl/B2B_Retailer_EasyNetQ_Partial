@@ -11,7 +11,7 @@ namespace Retailer
     {
         static Object lockObject = new object();
         static IBus bus = null;
-        static int timeoutInterval = 1000;
+        static int timeoutInterval = 2000;
         static int orderId = 0;
         // This list keeps track of the order reply messages from warehouses, which
         // have not yet been processed by the retailer.

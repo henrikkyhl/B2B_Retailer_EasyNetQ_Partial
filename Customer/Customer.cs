@@ -46,10 +46,6 @@ namespace Customer
             }
         }
 
-        void HandleAction(OrderReplyMessage obj)
-        {
-        }
-
 
         private void HandleOrderEvent(OrderReplyMessage message)
         {
