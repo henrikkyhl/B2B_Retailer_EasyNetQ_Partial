@@ -3,7 +3,7 @@ using Messages;
 
 Object lockObject = new object();
 IBus bus = null;
-int timeoutInterval = 2000;
+int timeoutInterval = 5000;
 int orderId = 0;
 // This list keeps track of the order reply messages from warehouses, which
 // have not yet been processed by the retailer.
