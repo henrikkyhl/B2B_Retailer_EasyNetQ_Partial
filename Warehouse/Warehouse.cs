@@ -8,6 +8,8 @@ namespace Warehouse
 {
     public class Warehouse
     {
+        string connectionStr ="host=hare.rmq.cloudamqp.com;virtualHost=npaprqop;username=npaprqop;password=<type your password here>";
+
         private string country;
         private int id;
         private IEnumerable<Product> products = null;
@@ -22,7 +24,7 @@ namespace Warehouse
 
         public void Start()
         {
-            using (bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
+            using (bus = RabbitHutch.CreateBus(connectionStr))
             {
                 // Listen for order request messages.
                 bus.PubSub.Subscribe<OrderRequestMessage>("warehouse" + id.ToString(), 

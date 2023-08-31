@@ -1,6 +1,8 @@
 ﻿using EasyNetQ;
 using Messages;
 
+string connectionStr = "host=hare.rmq.cloudamqp.com;virtualHost=npaprqop;username=npaprqop;password=<type your password here>";
+
 Object lockObject = new object();
 IBus bus = null;
 int timeoutInterval = 5000;
@@ -10,7 +12,7 @@ int orderId = 0;
 List<OrderReplyMessage> allReplies = new List<OrderReplyMessage>();
 
 
-using (bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
+using (bus = RabbitHutch.CreateBus(connectionStr))
 {
     Console.WriteLine("Retailer is running.");
 

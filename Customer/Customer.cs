@@ -8,6 +8,8 @@ namespace Customer
 {
     public class Customer
     {
+        string connectionStr = "host=hare.rmq.cloudamqp.com;virtualHost=npaprqop;username=npaprqop;password=<type your password here>";
+
         private int customerID;
         private int productID;
         private string country;
@@ -33,7 +35,7 @@ namespace Customer
                 Country = country
             };
 
-            using (IBus bus = RabbitHutch.CreateBus("host=localhost;persistentMessages=false"))
+            using (IBus bus = RabbitHutch.CreateBus(connectionStr))
             {
                 // Listen to reply messages from the Retailer (use Topic Based Routing).
                 // WRITE CODE HERE!
